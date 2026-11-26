@@ -47,6 +47,19 @@ godot --headless --export-release "Web" build/web/index.html
 
 A versão web usa o modo sem *threads*, então funciona em qualquer hospedagem estática (GitHub Pages, itch.io).
 
+### Gerar o APK de teste (Android)
+
+O APK é assinado com uma **chave de teste fixa**, para que cada nova versão instale por cima da anterior sem perder o progresso. A chave não fica neste repositório.
+
+1. Aumente `version/code` (e, se quiser, `version/name`) no preset "Android" de `export_presets.cfg`.
+2. Rode:
+
+```bash
+GODOT=/caminho/godot KEYSTORE=/caminho/bentevi-teste.keystore tools/build_android.sh
+```
+
+O arquivo sai em `build/android/bentevi-<versão>-v<código>.apk`. A exportação Android exige o Java 17+ e os *export templates* do Godot 4.5.
+
 ## Onde mexer
 
 | Quero mudar… | Arquivo |

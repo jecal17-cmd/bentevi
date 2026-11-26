@@ -4,3 +4,5 @@ build/
 /android/
 .import/
 export_credentials.cfg
+tools/*.jar
+*.keystore
