@@ -39,12 +39,12 @@ func _ready() -> void:
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_right", 140)
-	margin.add_theme_constant_override("margin_top", 90)
-	margin.add_theme_constant_override("margin_bottom", 60)
+	margin.add_theme_constant_override("margin_top", 50)
+	margin.add_theme_constant_override("margin_bottom", 30)
 	add_child(margin)
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_SHRINK_END
-	v.add_theme_constant_override("separation", 16)
+	v.add_theme_constant_override("separation", 12)
 	margin.add_child(v)
 
 	var name_label := ThemeFactory.title("BENTEVI", ThemeFactory.FONT_HERO)
@@ -56,7 +56,7 @@ func _ready() -> void:
 	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(tagline)
 	var gap := Control.new()
-	gap.custom_minimum_size = Vector2(0, 24)
+	gap.custom_minimum_size = Vector2(0, 8)
 	v.add_child(gap)
 
 	var options: Array = []
@@ -73,7 +73,7 @@ func _ready() -> void:
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	v.add_child(spacer)
-	var footer := ThemeFactory.title("Protótipo 0.3 · Bentevi Apps", 26)
+	var footer := ThemeFactory.title("Protótipo 0.4 · Bentevi Apps", 26)
 	footer.add_theme_color_override("font_color", ThemeFactory.INK_QUIET)
 	footer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(footer)

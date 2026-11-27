@@ -119,9 +119,13 @@ static func title(text: String, size: int = FONT_TITLE) -> Label:
 	return l
 
 
-static func button(text: String, min_size: Vector2 = Vector2(0, 96)) -> Button:
+## Altura mínima de toque: 112 px de 1080 ≈ 48 dp num celular comum na horizontal.
+const TOUCH_MIN := 112.0
+
+
+static func button(text: String, min_size: Vector2 = Vector2(0, TOUCH_MIN)) -> Button:
 	var b := Button.new()
 	b.text = text
-	b.custom_minimum_size = min_size
+	b.custom_minimum_size = Vector2(min_size.x, maxf(min_size.y, TOUCH_MIN))
 	b.focus_mode = Control.FOCUS_NONE
 	return b

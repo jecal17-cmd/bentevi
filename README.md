@@ -6,7 +6,13 @@ Protótipo jogável do **prólogo** e do **Capítulo 1** de BENTEVI, um jogo de 
 
 **Jogar no navegador:** https://jecal17-cmd.github.io/bentevi/ (funciona no celular, deitado)
 
-## O que tem nesta versão (0.3)
+## O que tem nesta versão (0.4)
+
+- Confirmação antes de apagar o jogo salvo; "voltar" do Android nos painéis do título volta ao título.
+- APK com cerca de metade do tamanho (só arm64, texturas WebP); botões com altura mínima de toque de 48 dp.
+- Nome dos mineiros escrito a giz; capa sem margem de papel.
+
+## Versão 0.3
 
 - 0.3.1: sem moldura nos objetos tocáveis da cena; texto da fita da coroa seguindo a curva; margens de papel cortadas das cenas para todas terem o mesmo enquadramento.
 

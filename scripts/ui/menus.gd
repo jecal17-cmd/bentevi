@@ -44,7 +44,7 @@ func _on_title_choice(id: String) -> void:
 		"continue":
 			continue_game()
 		"new":
-			start_chapter_fresh(0)
+			_confirm_overwrite(0, true)
 		"chapters":
 			show_chapters(true)
 		"settings":
@@ -53,6 +53,26 @@ func _on_title_choice(id: String) -> void:
 			show_credits()
 		"quit":
 			main.get_tree().quit()
+
+
+## Começar um capítulo apaga a partida salva; pergunta antes se há algo a perder.
+func _confirm_overwrite(chapter: int, from_title: bool) -> void:
+	if not GameState.has_save():
+		start_chapter_fresh(chapter)
+		return
+	var panel := MenuPanel.new()
+	var where := Content.chapter_title(_saved_chapter()).split(" — ")[0]
+	panel.setup("Começar de novo?", [["Sim, apagar o jogo salvo", "yes"], ["Voltar", "no"]],
+		"O jogo salvo (%s) será substituído." % where)
+	panel.chosen.connect(func(choice: String):
+		GameState.play("click")
+		if choice == "yes":
+			start_chapter_fresh(chapter)
+		elif from_title:
+			show_title()
+		else:
+			show_pause())
+	main.open_modal(panel, "confirm", from_title)
 
 
 func show_pause() -> void:
@@ -107,7 +127,7 @@ func show_chapters(from_title: bool) -> void:
 			show_title()
 		else:
 			main.close_modal())
-	panel.action.connect(func(id, _kind): start_chapter_fresh(int(id)))
+	panel.action.connect(func(id, _kind): _confirm_overwrite(int(id), from_title))
 	main.open_modal(panel, "chapters", from_title)
 
 

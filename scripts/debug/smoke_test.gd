@@ -38,8 +38,22 @@ static func run(main: Node) -> void:
 	await _shot(main, "01_configuracoes")
 	_find(main, SettingsPanel).closed.emit()
 	await _frames()
+	# Com um jogo salvo, "Novo jogo" precisa pedir confirmação antes de apagar.
+	GameState.save_path = "user://smoke_save.json"
+	FileAccess.open(GameState.save_path, FileAccess.WRITE).store_string("{\"chapter\": 1}")
 	_find(main, TitleScreen).chosen.emit("new")
 	await _frames()
+	var confirm = _find(main, MenuPanel)
+	_expect(confirm != null, "novo jogo pede confirmação quando há jogo salvo")
+	await _shot(main, "01b_confirmar_novo_jogo")
+	main.on_back(true)
+	await _frames()
+	_expect(_find(main, TitleScreen) != null, "voltar na confirmação leva ao título")
+	_find(main, TitleScreen).chosen.emit("new")
+	await _frames()
+	_find(main, MenuPanel).chosen.emit("yes")
+	await _frames()
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(GameState.save_path))
 	_expect(GameState.view == "bilheteria", "novo jogo começa na bilheteria")
 	_expect(Audio.current_bed() == "amb_1924", "ambiente de 1924 toca")
 

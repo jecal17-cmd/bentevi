@@ -11,6 +11,10 @@
 
 ## Próximo
 
+- [ ] Zoom dos cinco relógios com arte (prompt enviado em 27/11), ponteiros desenhados em código.
+- [ ] Dividir `main.gd` (HUD, modais, transições) antes do Capítulo 2.
+- [ ] Caderno separado por capítulo.
+
 - [ ] Testar o APK em aparelho Android simples (desempenho e toque).
 - [ ] Trilha sonora composta e efeitos gravados no lugar dos sons sintetizados.
 - [ ] Mais 23 nomes de mineiros nos capítulos seguintes.

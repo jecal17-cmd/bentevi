@@ -57,6 +57,9 @@ func _ready() -> void:
 	menus.show_title()
 
 
+var _modal_over_title := false
+
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		on_back(true)
@@ -80,7 +83,10 @@ func on_back(from_android: bool) -> void:
 		"":
 			menus.show_pause()
 		_:
-			close_modal()
+			if _modal_over_title:
+				menus.show_title()
+			else:
+				close_modal()
 
 
 # --- Montagem -------------------------------------------------------------
@@ -348,6 +354,8 @@ func check_chapter_end() -> void:
 func open_modal(panel: Control, kind: String, opaque: bool = false) -> void:
 	close_modal()
 	modal_kind = kind
+	# Painéis abertos a partir do título cobrem a tela; o "voltar" deve levar ao título.
+	_modal_over_title = opaque
 	var dim := ColorRect.new()
 	dim.color = Color("1b140f") if opaque else ThemeFactory.DIM
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)

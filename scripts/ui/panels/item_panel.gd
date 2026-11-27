@@ -119,11 +119,7 @@ func _build_image() -> Control:
 func _draw_placeholder(c: Control) -> void:
 	var r := Rect2(Vector2.ZERO, c.size).grow(-40)
 	if name_index >= 0:
-		c.draw_rect(r, Color("3a2e24"))
-		c.draw_rect(r, ThemeFactory.LINE, false, 4.0)
-		for i in 5:
-			var y := r.position.y + 70 + i * 60
-			c.draw_line(Vector2(r.position.x + 40, y), Vector2(r.end.x - 40 - i * 20, y), Color(ThemeFactory.INK, 0.35), 3.0)
+		_draw_chalk_name(c, r)
 		return
 	var paper := Content.is_document(item_id)
 	c.draw_rect(r, ThemeFactory.PAPER if paper else Color("4a3b2e"))
@@ -131,6 +127,32 @@ func _draw_placeholder(c: Control) -> void:
 	var font := c.get_theme_default_font()
 	c.draw_string(font, Vector2(r.position.x, r.get_center().y + 14), Content.item_name(item_id),
 		HORIZONTAL_ALIGNMENT_CENTER, r.size.x, 40, ThemeFactory.INK_DARK if paper else ThemeFactory.INK)
+
+
+## Nome escrito a giz numa tábua escura, como foi achado na cena.
+func _draw_chalk_name(c: Control, r: Rect2) -> void:
+	c.draw_rect(r, Color("5a4430"))
+	var board := r.grow(-16)
+	c.draw_rect(board, Color("23211e"))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 31 + name_index
+	for i in 14:
+		var p := board.position + Vector2(rng.randf() * board.size.x, rng.randf() * board.size.y)
+		c.draw_circle(p, rng.randf_range(20, 60), Color(0.85, 0.84, 0.8, 0.025))
+	var font := ThemeFactory.FONT_ITALIC
+	var words: PackedStringArray = Content.MINERS[name_index].split(", ")[0].split(" ", false, 1)
+	var chalk := Color(0.9, 0.89, 0.84, 0.88)
+	c.draw_set_transform(board.get_center(), -0.05, Vector2.ONE)
+	for i in words.size():
+		var y := -20.0 + i * 70.0 - (words.size() - 1) * 20.0
+		for k in 3:
+			var jitter := Vector2(rng.randf_range(-1.5, 1.5), rng.randf_range(-1.5, 1.5))
+			c.draw_string(font, Vector2(-board.size.x * 0.5, y) + jitter, words[i], HORIZONTAL_ALIGNMENT_CENTER,
+				board.size.x, 62, Color(chalk, 0.45 if k > 0 else 0.88))
+	c.draw_line(Vector2(-110, 92), Vector2(110, 86), Color(chalk, 0.6), 3.0)
+	c.draw_string(font, Vector2(-board.size.x * 0.5, 136), "† 14 · VIII · 1899", HORIZONTAL_ALIGNMENT_CENTER,
+		board.size.x, 34, Color(chalk, 0.7))
+	c.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
 func _toggle_back() -> void:
