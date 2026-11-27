@@ -4,6 +4,8 @@ extends Node
 
 signal changed
 signal message(text: String)
+signal item_added(id: String)
+signal sound(name: String)
 
 const SAVE_PATH := "user://bentevi_save.json"
 const MAX_PLATES := 3
@@ -13,11 +15,14 @@ const START_VIEW := "bilheteria"
 var save_enabled := true
 var save_path := SAVE_PATH
 
+var chapter: int = 0
 var flags: Dictionary = {}
 var inventory: Array[String] = []
 ## vista -> "taken" (fotografada) ou "developed" (revelada)
 var photos: Dictionary = {}
 var notes: Array[String] = []
+## Índices dos mineiros cujos nomes já foram encontrados.
+var names_found: Array[int] = []
 var plates: int = MAX_PLATES
 var view: String = START_VIEW
 var era: int = 1924
@@ -27,6 +32,12 @@ var hint_level: int = 0
 
 
 func new_game() -> void:
+	reset()
+	commit()
+
+
+func reset() -> void:
+	chapter = 0
 	flags = {}
 	inventory = []
 	photos = {}
@@ -37,7 +48,7 @@ func new_game() -> void:
 	selected_item = ""
 	hint_stage = ""
 	hint_level = 0
-	commit()
+	names_found = []
 
 
 func commit() -> void:
@@ -47,6 +58,10 @@ func commit() -> void:
 
 func say(text: String) -> void:
 	message.emit(text)
+
+
+func play(sound_name: String) -> void:
+	sound.emit(sound_name)
 
 
 func is_past() -> bool:
@@ -65,9 +80,11 @@ func has_item(id: String) -> bool:
 	return inventory.has(id)
 
 
-func add_item(id: String) -> void:
+func add_item(id: String, announce: bool = true) -> void:
 	if not inventory.has(id):
 		inventory.append(id)
+		if announce:
+			item_added.emit(id)
 
 
 func remove_item(id: String) -> void:
@@ -83,11 +100,13 @@ func add_note(text: String) -> void:
 
 func to_dict() -> Dictionary:
 	return {
-		"version": 1,
+		"version": 2,
+		"chapter": chapter,
 		"flags": flags,
 		"inventory": inventory,
 		"photos": photos,
 		"notes": notes,
+		"names_found": names_found,
 		"plates": plates,
 		"view": view,
 		"era": era,
@@ -97,10 +116,14 @@ func to_dict() -> Dictionary:
 
 
 func from_dict(data: Dictionary) -> void:
+	chapter = int(data.get("chapter", 0))
 	flags = data.get("flags", {})
 	inventory.assign(data.get("inventory", []))
 	photos = data.get("photos", {})
 	notes.assign(data.get("notes", []))
+	names_found.clear()
+	for n in data.get("names_found", []):
+		names_found.append(int(n))
 	plates = int(data.get("plates", MAX_PLATES))
 	view = str(data.get("view", START_VIEW))
 	era = int(data.get("era", 1924))

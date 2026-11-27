@@ -1,23 +1,26 @@
 # Backlog
 
-## Próximo (antes do teste com jogadores)
+## Arte pendente (prompts enviados)
 
-- [ ] Esconder o bilhete e a chave da arte de 1899 depois de pegos (camada recortada sobre o cenário).
-- [ ] Destaque discreto ao tocar num objeto no celular (hoje o contorno só aparece com mouse).
-- [ ] Efeito de transição ao entrar e sair da foto (flash branco + som de obturador).
-- [ ] Som ambiente e canto do bem-te-vi.
-- [ ] Ajustar a arte do relógio da plataforma para marcar 3h17 (hoje marca 3h00).
-- [ ] Exportar para Android (APK de teste) e medir desempenho em aparelho simples.
+- [ ] Relógio da plataforma em 3h17 (`estacao_1924`).
+- [ ] Variantes sem o bilhete e sem a chave em 1899.
+- [ ] Capítulo 1: salão, parede dos relógios e espelho (1924 e 1899), zooms e ícones dos itens.
+- [ ] Carruagem (fim do prólogo).
+- [ ] Ao receber as imagens: medir e ajustar as áreas de toque do Capítulo 1 em `hotspots.gd`.
 
-## Capítulo 1 — O Velório
+## Próximo
+
+- [ ] Testar o APK em aparelho Android simples (desempenho e toque).
+- [ ] Trilha sonora composta e efeitos gravados no lugar dos sons sintetizados.
+- [ ] Mais 23 nomes de mineiros nos capítulos seguintes.
+- [ ] Inglês.
+
+## Capítulo 2 — A Botica
 
 - [ ] Mapa de dependências dos quebra-cabeças.
-- [ ] Sala de visitas: relógios parados, caixão com fecho de medalhas, espelhos cobertos.
-- [ ] Revelação: terra da mina na boca do coronel.
+- [ ] Balança de frascos, herbário com código em latim, receita do chá do esquecimento.
 
 ## Depois
 
-- [ ] Tela de configurações (volume, tamanho do texto).
-- [ ] Inglês.
 - [ ] Conquistas e nuvem da Steam.
-- [ ] Desbloqueio pago no celular após o capítulo 1.
+- [ ] Desbloqueio pago no celular após o Capítulo 1.

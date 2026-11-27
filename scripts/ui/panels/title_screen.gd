@@ -1,22 +1,23 @@
 extends Control
-## Tela de título. Usa assets/art/capa.png como fundo se existir.
+## Menu principal. Usa assets/art/capa.jpg como fundo se existir.
 
-signal continue_requested
-signal new_game_requested
+signal chosen(id: String)
 
 const ThemeFactory := preload("res://scripts/ui/theme_factory.gd")
 const Art := preload("res://scripts/ui/art.gd")
 
 var can_continue := false
+var continue_label := "Continuar"
 
 
-func setup(has_save: bool) -> void:
+func setup(has_save: bool, where: String) -> void:
 	can_continue = has_save
+	if where != "":
+		continue_label = "Continuar · %s" % where
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-
 	var bg := ColorRect.new()
 	bg.color = Color("1b140f")
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -29,38 +30,50 @@ func _ready() -> void:
 		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		add_child(art)
+		# Escurece a metade direita, onde fica o menu, para o texto ler bem.
 		var shade := ColorRect.new()
-		shade.color = Color(0, 0, 0, 0.35)
+		shade.color = Color(0, 0, 0, 0.45)
 		shade.set_anchors_preset(Control.PRESET_FULL_RECT)
 		add_child(shade)
 
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(center)
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_right", 140)
+	margin.add_theme_constant_override("margin_top", 90)
+	margin.add_theme_constant_override("margin_bottom", 60)
+	add_child(margin)
 	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 28)
-	center.add_child(v)
+	v.size_flags_horizontal = Control.SIZE_SHRINK_END
+	v.add_theme_constant_override("separation", 16)
+	margin.add_child(v)
 
-	var name_label := ThemeFactory.label("BENTEVI", ThemeFactory.FONT_HERO, ThemeFactory.ACCENT)
+	var name_label := ThemeFactory.title("BENTEVI", ThemeFactory.FONT_HERO)
+	name_label.add_theme_color_override("font_color", ThemeFactory.ACCENT)
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	v.add_child(name_label)
-	var tagline := ThemeFactory.label("O pássaro viu tudo", ThemeFactory.FONT_TITLE)
+	var tagline := ThemeFactory.title("O pássaro viu tudo", 48)
+	tagline.add_theme_font_override("font", ThemeFactory.FONT_ITALIC)
 	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	tagline.autowrap_mode = TextServer.AUTOWRAP_OFF
 	v.add_child(tagline)
-	v.add_child(Control.new())
+	var gap := Control.new()
+	gap.custom_minimum_size = Vector2(0, 24)
+	v.add_child(gap)
 
+	var options: Array = []
 	if can_continue:
-		var cont := ThemeFactory.button("Continuar", Vector2(420, 100))
-		cont.pressed.connect(continue_requested.emit)
-		v.add_child(cont)
-	var new_game := ThemeFactory.button("Novo jogo", Vector2(420, 100))
-	new_game.pressed.connect(new_game_requested.emit)
-	v.add_child(new_game)
+		options.append([continue_label, "continue"])
+	options.append_array([["Novo jogo", "new"], ["Capítulos", "chapters"], ["Configurações", "settings"], ["Créditos", "credits"]])
+	if OS.get_name() in ["Windows", "macOS", "Linux"]:
+		options.append(["Sair", "quit"])
+	for option in options:
+		var b := ThemeFactory.button(option[0], Vector2(560, 92))
+		b.pressed.connect(chosen.emit.bind(option[1]))
+		v.add_child(b)
 
-	var footer := ThemeFactory.label("Protótipo do prólogo · arte provisória · Bentevi Apps", 26, ThemeFactory.INK_QUIET)
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	v.add_child(spacer)
+	var footer := ThemeFactory.title("Protótipo 0.2 · Bentevi Apps", 26)
+	footer.add_theme_color_override("font_color", ThemeFactory.INK_QUIET)
 	footer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	footer.autowrap_mode = TextServer.AUTOWRAP_OFF
-	v.add_child(Control.new())
 	v.add_child(footer)

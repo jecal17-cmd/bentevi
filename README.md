@@ -1,25 +1,22 @@
 # BENTEVI — O pássaro viu tudo
 
-Protótipo jogável do **prólogo** de BENTEVI, um jogo de quebra-cabeças e suspense em estilo *escape room*, da Bentevi Apps.
+Protótipo jogável do **prólogo** e do **Capítulo 1** de BENTEVI, um jogo de quebra-cabeças e suspense em estilo *escape room*, da Bentevi Apps.
 
 > Minas Gerais, 1924. Lúcia Vaz, perita de seguros, chega a uma estação vazia. Toda foto que ela revela mostra o lugar como era em 14 de agosto de 1899 — e ela pode entrar nelas.
 
 **Jogar no navegador:** https://jecal17-cmd.github.io/bentevi/ (funciona no celular, deitado)
 
-## O que o protótipo testa
+## O que tem nesta versão (0.2)
 
-A pergunta deste protótipo é uma só: **revelar uma foto e entrar no passado gera o momento “aha”?**
-
-- Navegação entre duas vistas (bilheteria e plataforma), com zoom em objetos.
-- Inventário com seleção e uso de itens.
-- Cadeado de 3 dígitos.
-- Câmera com 3 chapas, **câmara escura** (minijogo de revelação) e entrada na foto de 1899.
-- Mudanças no passado trazem itens para o presente (chave de 1899 → gaveta de 1924).
-- Caderno que anota as pistas sozinho.
-- Dicas do bem-te-vi em 3 níveis (empurrão → direção → solução).
-- Salvamento automático a cada ação; final do prólogo.
-
-Duração: 5 a 10 minutos.
+- **Prólogo — A Estação** e **Capítulo 1 — O Velório**: 5 cenários, cada um em 1924 e em 1899, cerca de 25 quebra-cabeças. Duração estimada: 30 a 40 minutos na primeira vez.
+- Câmera com chapas, **câmara escura** e entrada nas fotos de 1899; mudanças no passado alteram o presente.
+- Quebra-cabeças variados: cadeados de 3 e 4 dígitos, número lido num espelho, acertar os ponteiros de um relógio, encaixar medalhas, acender velas para ter luz para fotografar.
+- **Tela de item**: todo item novo aparece em tela cheia; toque duas vezes num item do inventário para examiná-lo. Documentos aparecem como papel e têm verso.
+- **Nomes dos 31 mineiros** escondidos pelos cenários (8 nesta versão), registrados no caderno.
+- **Som**: ambiente de 1924 e de 1899, música do menu e efeitos para cada ação.
+- **Menus**: principal (continuar, novo jogo, capítulos, configurações, créditos), pausa, e configurações de volume, texto grande e "mostrar áreas de toque".
+- Dicas do bem-te-vi em 3 níveis, caderno automático, salvamento a cada ação.
+- Botão "voltar" do Android fecha o painel aberto ou abre a pausa, em vez de fechar o jogo.
 
 ## Como rodar no computador
 
@@ -30,10 +27,10 @@ Duração: 5 a 10 minutos.
 ### Testes
 
 ```bash
-# Regras do jogo (41 verificações)
+# Regras do jogo (123 verificações)
 godot --headless -s tests/run_tests.gd
 
-# Joga o prólogo inteiro pela interface, sem tela
+# Joga o prólogo e o Capítulo 1 inteiros pela interface, sem tela
 godot --headless -- --smoke
 ```
 
@@ -64,8 +61,11 @@ O arquivo sai em `build/android/bentevi-<versão>-v<código>.apk`. A exportaçã
 
 | Quero mudar… | Arquivo |
 | --- | --- |
-| Textos, itens, dicas, posição das áreas de toque | `scripts/game/content.gd` |
-| Regras (o que cada objeto faz, código do cadeado) | `scripts/game/logic.gd` |
+| Textos, itens, dicas, capítulos, mineiros | `scripts/game/content.gd` |
+| Posição das áreas de toque, variantes de arte, efeitos | `scripts/game/hotspots.gd` |
+| Regras (o que cada objeto faz, códigos) | `scripts/game/logic.gd`, `logic_prologo.gd`, `logic_cap1.gd` |
+| Menus | `scripts/ui/menus.gd` |
+| Sons (gerados por síntese) | `tools/gen_audio.py` → `assets/audio/` |
 | Cores, fontes e estilo dos botões | `scripts/ui/theme_factory.gd` |
 | Imagens | `assets/art/` |
 
@@ -79,7 +79,10 @@ O jogo procura as imagens pelo nome e usa a arte provisória (desenhada em códi
 | `assets/art/relogio_zoom.jpg` | Zoom do relógio |
 | `assets/art/capa.jpg` | Tela de título |
 | `assets/art/bemtevi.png` | Botão de dica |
-| `assets/art/items/<item>.png` | Ícones do inventário (fundo transparente) |
+| `assets/art/items/<item>.png` | Ícones do inventário e tela de item (fundo transparente) |
+| `assets/art/<nome>_zoom.jpg` | Zooms: `relogio`, `coroa`, `caixao`, `pendulo` |
+| `assets/art/carruagem.jpg` | Fim do prólogo |
+| `assets/art/estacao_1899_sem_bilhete.jpg` etc. | Variantes depois de pegar um item (`hotspots.gd`, `ART_VARIANTS`) |
 
 Ao trocar um cenário, confira se os retângulos em `content.gd` continuam sobre os objetos certos.
 
@@ -95,6 +98,6 @@ docs/            briefing e backlog
 
 ## Sobre a arte
 
-As imagens atuais foram geradas com IA para prototipagem. O plano do jogo prevê arte final desenhada à mão; a Steam exige declarar conteúdo gerado por IA que o jogador vê.
+As imagens atuais foram geradas com IA para prototipagem. Onde ainda não há imagem (Capítulo 1), o jogo desenha uma arte provisória em código. Os sons são provisórios, gerados por síntese em `tools/gen_audio.py`. A fonte é a Crimson Text (SIL Open Font License, `assets/fonts/OFL.txt`). O plano do jogo prevê arte final desenhada à mão; a Steam exige declarar conteúdo gerado por IA que o jogador vê.
 
 Código, história e personagens © Bentevi Apps. Todos os direitos reservados.

@@ -1,34 +1,43 @@
 extends PanelContainer
-## Cadeado de 3 dígitos da mala.
+## Cadeado de discos numéricos (3 ou 4 dígitos).
 
 signal submitted(code: String)
 signal closed
 
 const ThemeFactory := preload("res://scripts/ui/theme_factory.gd")
 
-var digits: Array[int] = [0, 0, 0]
+var digit_count := 3
+var title_text := "Cadeado"
+var digits: Array[int] = []
 var _labels: Array[Label] = []
 
 
+func setup(count: int, title_value: String) -> void:
+	digit_count = count
+	title_text = title_value
+
+
 func _ready() -> void:
+	digits.resize(digit_count)
+	digits.fill(0)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 24)
 	add_child(v)
 
-	var title := ThemeFactory.label("Cadeado de latão", ThemeFactory.FONT_TITLE)
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_child(title)
+	var heading := ThemeFactory.title(title_text)
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(heading)
 
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 32)
+	row.add_theme_constant_override("separation", 28)
 	v.add_child(row)
-	for i in 3:
+	for i in digit_count:
 		var col := VBoxContainer.new()
-		col.add_theme_constant_override("separation", 12)
+		col.add_theme_constant_override("separation", 10)
 		var up := ThemeFactory.button("+", Vector2(130, 96))
 		up.pressed.connect(_step.bind(i, 1))
-		var digit := ThemeFactory.label("0", 96, ThemeFactory.ACCENT)
+		var digit := ThemeFactory.label("0", 100)
 		digit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		var down := ThemeFactory.button("−", Vector2(130, 96))
 		down.pressed.connect(_step.bind(i, -1))
@@ -51,9 +60,13 @@ func _ready() -> void:
 
 
 func code() -> String:
-	return "%d%d%d" % [digits[0], digits[1], digits[2]]
+	var s := ""
+	for d in digits:
+		s += str(d)
+	return s
 
 
 func _step(index: int, delta: int) -> void:
 	digits[index] = posmod(digits[index] + delta, 10)
 	_labels[index].text = str(digits[index])
+	GameState.play("tick")
