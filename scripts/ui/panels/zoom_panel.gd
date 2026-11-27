@@ -12,6 +12,8 @@ const ClockFace := preload("res://scripts/ui/clock_face.gd")
 const Art := preload("res://scripts/ui/art.gd")
 
 const VIEW_SIZE := Vector2(1100, 620)
+## Linha central da fita em coroa_zoom (coordenadas da imagem 1920x1080), curva cúbica.
+const RIBBON_CURVE := [Vector2(625, 694), Vector2(830, 694), Vector2(1120, 542), Vector2(1325, 542)]
 const CLOCK_NAMES := ["Joaquim", "Ester", "Augusto", "Celeste", "L."]
 
 var params: Dictionary = {}
@@ -103,11 +105,10 @@ func _draw_ribbon(size: Vector2, has_art: bool) -> void:
 		if params.has("action"):
 			_canvas.draw_circle(size * 0.5 + Vector2(150, -120), 26, Color("c0c4c8"))
 	if has_art:
-		# A fita já está na arte: só escrevemos sobre ela, acompanhando a inclinação.
-		_canvas.draw_set_transform(Vector2(551, 367), -0.12, Vector2.ONE)
-		_canvas.draw_string(font, Vector2(-330, 12), "Saudades eternas — Ester, Augusto e Celeste",
-			HORIZONTAL_ALIGNMENT_CENTER, 660, 34, Color(0.18, 0.1, 0.06, 0.92))
-		_canvas.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		# A fita já está na arte: escrevemos sobre ela, letra a letra, seguindo a curva.
+		var ink := Color(0.2, 0.12, 0.07, 0.9)
+		_text_on_curve("Saudades eternas", RIBBON_CURVE, font, 30, -17.0, ink)
+		_text_on_curve("Ester, Augusto e Celeste", RIBBON_CURVE, font, 30, 17.0, ink)
 		return
 	var band := Rect2(0, size.y * 0.62, size.x, 90)
 	_canvas.draw_rect(band, Color(0.94, 0.9, 0.8, 0.88))
@@ -189,3 +190,43 @@ func _draw_clocks(size: Vector2) -> void:
 		var plate := Rect2(c.x - 92, c.y + 115, 184, 56)
 		_canvas.draw_rect(plate, Color("8a6a3a"))
 		_canvas.draw_string(font, Vector2(plate.position.x, plate.position.y + 40), CLOCK_NAMES[i], HORIZONTAL_ALIGNMENT_CENTER, plate.size.x, 32, ThemeFactory.INK_DARK)
+
+
+## Escreve o texto centralizado ao longo de uma curva cúbica dada em coordenadas da
+## arte (1920x1080). offset desloca a linha na perpendicular à curva.
+func _text_on_curve(text: String, curve: Array, font: Font, font_size: int, offset: float, color: Color) -> void:
+	var size := _canvas.size
+	var k := maxf(size.x / 1920.0, size.y / 1080.0)
+	var shift := (size - Vector2(1920, 1080) * k) * 0.5
+	var p: Array[Vector2] = []
+	for q in curve:
+		p.append(q * k + shift)
+	var steps := 120
+	var points: Array[Vector2] = []
+	var lengths: Array[float] = [0.0]
+	for i in steps + 1:
+		var t := i / float(steps)
+		var u := 1.0 - t
+		points.append(p[0] * u * u * u + p[1] * 3.0 * u * u * t + p[2] * 3.0 * u * t * t + p[3] * t * t * t)
+		if i > 0:
+			lengths.append(lengths[i - 1] + points[i].distance_to(points[i - 1]))
+	var total: float = lengths[steps]
+	var fs := font_size
+	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
+	if width > total * 0.92:
+		fs = int(fs * total * 0.92 / width)
+		width = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
+	var d := (total - width) * 0.5
+	var seg := 0
+	for ch in text:
+		var cw := font.get_char_size(ch.unicode_at(0), fs).x
+		var mid := d + cw * 0.5
+		while seg < steps - 1 and lengths[seg + 1] < mid:
+			seg += 1
+		var span := maxf(lengths[seg + 1] - lengths[seg], 0.001)
+		var at := points[seg].lerp(points[seg + 1], clampf((mid - lengths[seg]) / span, 0.0, 1.0))
+		var angle := (points[seg + 1] - points[seg]).angle()
+		_canvas.draw_set_transform(at, angle, Vector2.ONE)
+		_canvas.draw_char(font, Vector2(-cw * 0.5, offset + fs * 0.32), ch, fs, color)
+		d += cw
+	_canvas.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)

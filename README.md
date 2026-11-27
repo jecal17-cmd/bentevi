@@ -8,6 +8,8 @@ Protótipo jogável do **prólogo** e do **Capítulo 1** de BENTEVI, um jogo de 
 
 ## O que tem nesta versão (0.3)
 
+- 0.3.1: sem moldura nos objetos tocáveis da cena; texto da fita da coroa seguindo a curva; margens de papel cortadas das cenas para todas terem o mesmo enquadramento.
+
 - Arte final do Capítulo 1 (salão, relógios e espelho em 1924 e 1899), zooms da coroa, do caixão e do pêndulo, carruagem e ícones de todos os itens.
 - Áreas de toque refeitas sobre a arte nova; parede com cinco relógios (o quinto, "L.").
 

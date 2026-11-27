@@ -56,9 +56,9 @@ static func build(large_text: bool = false) -> Theme:
 	t.add_type("Hotspot")
 	t.set_type_variation("Hotspot", "Button")
 	t.set_stylebox("normal", "Hotspot", StyleBoxEmpty.new())
-	t.set_stylebox("hover", "Hotspot", box(Color(1, 1, 1, 0.03), Color(INK, 0.45), 2))
-	t.set_stylebox("pressed", "Hotspot", box(Color(1, 1, 1, 0.06), Color(INK, 0.7), 2))
-	t.set_stylebox("hover_pressed", "Hotspot", box(Color(1, 1, 1, 0.06), Color(INK, 0.7), 2))
+	t.set_stylebox("hover", "Hotspot", StyleBoxEmpty.new())
+	t.set_stylebox("pressed", "Hotspot", StyleBoxEmpty.new())
+	t.set_stylebox("hover_pressed", "Hotspot", StyleBoxEmpty.new())
 	t.set_stylebox("focus", "Hotspot", StyleBoxEmpty.new())
 
 	t.set_stylebox("panel", "PanelContainer", box(PANEL, LINE, 2, 32))
