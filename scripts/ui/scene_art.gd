@@ -93,13 +93,15 @@ func _draw_overlays() -> void:
 	for o in overlays:
 		match o["type"]:
 			"dark":
-				_overlay_layer.draw_rect(Rect2(Vector2.ZERO, _overlay_layer.size), Color(0.02, 0.015, 0.01, 0.62))
+				_overlay_layer.draw_rect(Rect2(Vector2.ZERO, _overlay_layer.size), Color(0.02, 0.015, 0.01, 0.5))
 			"glow":
-				var c: Vector2 = o["at"]
-				for i in 8:
-					_overlay_layer.draw_circle(c, 60.0 + i * 55.0, Color(1.0, 0.7, 0.35, 0.035))
-				for x in [-60, -30, 0, 30, 60]:
-					_overlay_layer.draw_circle(c + Vector2(x, 0), 10, Color(1.0, 0.85, 0.5, 0.9))
+				var points: Array = o["points"]
+				var c: Vector2 = points[2]
+				for i in 9:
+					_overlay_layer.draw_circle(c, 70.0 + i * 60.0, Color(1.0, 0.7, 0.35, 0.03))
+				for p in points:
+					_overlay_layer.draw_circle(p, 16, Color(1.0, 0.75, 0.35, 0.35))
+					_overlay_layer.draw_circle(p, 7, Color(1.0, 0.9, 0.6, 0.95))
 			"open_coffin":
 				var r: Rect2 = o["rect"]
 				_overlay_layer.draw_rect(Rect2(r.position + Vector2(40, 20), Vector2(r.size.x - 80, r.size.y * 0.45)), Color(0.05, 0.03, 0.02, 0.85))

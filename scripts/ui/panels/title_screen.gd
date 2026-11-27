@@ -73,7 +73,7 @@ func _ready() -> void:
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	v.add_child(spacer)
-	var footer := ThemeFactory.title("Protótipo 0.2 · Bentevi Apps", 26)
+	var footer := ThemeFactory.title("Protótipo 0.3 · Bentevi Apps", 26)
 	footer.add_theme_color_override("font_color", ThemeFactory.INK_QUIET)
 	footer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(footer)

@@ -137,7 +137,7 @@ static func _chapter1(main: Node) -> void:
 	_expect(GameState.view == "relogios", "seta leva à parede dos relógios")
 	main.on_hotspot("parede")
 	await _frames()
-	await _shot(main, "12_quatro_relogios")
+	await _shot(main, "12_cinco_relogios")
 	_find(main, ZoomPanel).closed.emit()
 	main.on_hotspot("gaveta_cima")
 	await _frames()

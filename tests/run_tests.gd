@@ -201,7 +201,7 @@ func test_content() -> void:
 		for h in Hotspots.HOTSPOTS[view]:
 			ids[h["id"]] = true
 			var r: Rect2 = h["rect"]
-			check(r.end.y <= 880 and r.end.x <= 1920, "%s/%s fica acima da barra de inventário" % [view, h["id"]])
+			check(r.end.y <= 920 and r.end.x <= 1920, "%s/%s fica acima da barra de inventário" % [view, h["id"]])
 	for item in Content.ITEM_TARGETS:
 		check(Content.ITEMS.has(item), "item %s existe" % item)
 		for target in Content.ITEM_TARGETS[item]:

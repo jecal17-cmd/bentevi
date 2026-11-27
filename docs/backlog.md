@@ -2,11 +2,12 @@
 
 ## Arte pendente (prompts enviados)
 
-- [ ] Relógio da plataforma em 3h17 (`estacao_1924`).
-- [ ] Variantes sem o bilhete e sem a chave em 1899.
-- [ ] Capítulo 1: salão, parede dos relógios e espelho (1924 e 1899), zooms e ícones dos itens.
-- [ ] Carruagem (fim do prólogo).
-- [ ] Ao receber as imagens: medir e ajustar as áreas de toque do Capítulo 1 em `hotspots.gd`.
+- [x] Relógio da plataforma em 3h17 (`estacao_1924`).
+- [x] Variantes sem o bilhete e sem a chave em 1899.
+- [x] Capítulo 1: salão, parede dos relógios e espelho (1924 e 1899), zooms e ícones dos itens.
+- [x] Carruagem (fim do prólogo).
+- [x] Áreas de toque do Capítulo 1 medidas sobre a arte nova (0.3).
+- [ ] Arte da parede dos cinco relógios em zoom com os ponteiros desenhados por cima, alinhados aos mostradores.
 
 ## Próximo
 

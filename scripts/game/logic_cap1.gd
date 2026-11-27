@@ -155,12 +155,12 @@ static func _castical(gs, past: bool) -> Dictionary:
 static func _parede(past: bool) -> Dictionary:
 	if past:
 		return {
-			"open": "zoom", "overlay": "clocks4", "data": {"times": [[9, 40], [6, 5], [11, 50], [3, 17]]},
-			"caption": "Em 1899, cada um marca uma hora. Só o de Celeste já está em 3h17.",
+			"open": "zoom", "overlay": "clocks", "data": {"times": [[9, 40], [6, 5], [11, 50], [3, 17], [3, 17]]},
+			"caption": "Em 1899, cada um marca uma hora. Só o de Celeste e o da plaquinha \"L.\" já estão em 3h17.",
 		}
 	return {
-		"open": "zoom", "overlay": "clocks4", "data": {"times": [[3, 17], [3, 17], [3, 17], [3, 17]]},
-		"caption": "Quatro relógios, quatro plaquinhas: Joaquim, Ester, Augusto, Celeste. Todos parados em 3h17.",
+		"open": "zoom", "overlay": "clocks", "data": {"times": [[3, 17], [3, 17], [3, 17], [3, 17], [3, 17]]},
+		"caption": "Cinco relógios, cinco plaquinhas: Joaquim, Ester, Augusto, Celeste... e uma só com \"L.\". Todos parados em 3h17.",
 	}
 
 
@@ -176,7 +176,7 @@ static func _pendulo(gs, past: bool) -> Dictionary:
 		gs.commit()
 		return {}
 	if gs.has_flag("pendulo_aberto"):
-		gs.say("O pêndulo balança. Os outros quatro continuam em 3h17.")
+		gs.say("O pêndulo balança. Os outros cinco continuam em 3h17.")
 		return {}
 	if gs.selected_item == "chave_corda":
 		gs.set_flag("pendulo_com_corda")
@@ -245,7 +245,7 @@ static func _espelho(gs, past: bool) -> Dictionary:
 		gs.add_note("No reflexo de 1899, alguém escreveu a giz na parede, ao contrário: 1408.")
 		gs.commit()
 	return {
-		"open": "zoom", "art": "espelho_1899", "region": Rect2(700, 90, 520, 520), "overlay": "mirror",
+		"open": "zoom", "art": "espelho_1899", "region": preload("res://scripts/game/hotspots.gd").MIRROR_GLASS, "overlay": "mirror",
 		"caption": "No reflexo, alguém escreveu a giz na parede atrás de mim — ao contrário. Atrás da cortina, a barra de um vestido claro.",
 	}
 

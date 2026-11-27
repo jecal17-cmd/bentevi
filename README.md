@@ -6,7 +6,12 @@ Protótipo jogável do **prólogo** e do **Capítulo 1** de BENTEVI, um jogo de 
 
 **Jogar no navegador:** https://jecal17-cmd.github.io/bentevi/ (funciona no celular, deitado)
 
-## O que tem nesta versão (0.2)
+## O que tem nesta versão (0.3)
+
+- Arte final do Capítulo 1 (salão, relógios e espelho em 1924 e 1899), zooms da coroa, do caixão e do pêndulo, carruagem e ícones de todos os itens.
+- Áreas de toque refeitas sobre a arte nova; parede com cinco relógios (o quinto, "L.").
+
+## Versão 0.2
 
 - **Prólogo — A Estação** e **Capítulo 1 — O Velório**: 5 cenários, cada um em 1924 e em 1899, cerca de 25 quebra-cabeças. Duração estimada: 30 a 40 minutos na primeira vez.
 - Câmera com chapas, **câmara escura** e entrada nas fotos de 1899; mudanças no passado alteram o presente.
