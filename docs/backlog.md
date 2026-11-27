@@ -11,7 +11,7 @@
 
 ## Próximo
 
-- [ ] Zoom dos cinco relógios com arte (prompt enviado em 27/11), ponteiros desenhados em código.
+- [x] Zoom dos cinco relógios com arte (0.4.1), ponteiros e nomes desenhados em código.
 - [ ] Dividir `main.gd` (HUD, modais, transições) antes do Capítulo 2.
 - [ ] Caderno separado por capítulo.
 

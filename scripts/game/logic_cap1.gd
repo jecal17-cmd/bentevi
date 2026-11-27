@@ -155,11 +155,11 @@ static func _castical(gs, past: bool) -> Dictionary:
 static func _parede(past: bool) -> Dictionary:
 	if past:
 		return {
-			"open": "zoom", "overlay": "clocks", "data": {"times": [[9, 40], [6, 5], [11, 50], [3, 17], [3, 17]]},
+			"open": "zoom", "art": "relogios_zoom", "overlay": "clocks", "data": {"times": [[9, 40], [6, 5], [11, 50], [3, 17], [3, 17]]},
 			"caption": "Em 1899, cada um marca uma hora. Só o de Celeste e o da plaquinha \"L.\" já estão em 3h17.",
 		}
 	return {
-		"open": "zoom", "overlay": "clocks", "data": {"times": [[3, 17], [3, 17], [3, 17], [3, 17], [3, 17]]},
+		"open": "zoom", "art": "relogios_zoom", "overlay": "clocks", "data": {"times": [[3, 17], [3, 17], [3, 17], [3, 17], [3, 17]]},
 		"caption": "Cinco relógios, cinco plaquinhas: Joaquim, Ester, Augusto, Celeste... e uma só com \"L.\". Todos parados em 3h17.",
 	}
 

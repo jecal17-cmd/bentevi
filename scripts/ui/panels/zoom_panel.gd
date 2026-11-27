@@ -14,6 +14,10 @@ const Art := preload("res://scripts/ui/art.gd")
 const VIEW_SIZE := Vector2(1100, 620)
 ## Linha central da fita em coroa_zoom (coordenadas da imagem 1920x1080), curva cúbica.
 const RIBBON_CURVE := [Vector2(625, 694), Vector2(830, 694), Vector2(1120, 542), Vector2(1325, 542)]
+## relogios_zoom (1920x1080): centro (x, y) e raio do anel de algarismos de cada
+## mostrador, e as plaquinhas de latão em branco onde escrevemos os nomes.
+const WALL_CLOCKS := [Vector3(308, 493, 70), Vector3(642, 464, 61), Vector3(973, 484, 66), Vector3(1316, 490, 69), Vector3(1649, 496, 62)]
+const WALL_PLATES := [Rect2(227, 683, 154, 50), Rect2(565, 784, 153, 50), Rect2(894, 780, 153, 52), Rect2(1236, 773, 154, 52), Rect2(1569, 649, 153, 53)]
 const CLOCK_NAMES := ["Joaquim", "Ester", "Augusto", "Celeste", "L."]
 
 var params: Dictionary = {}
@@ -93,7 +97,10 @@ func _draw_canvas(has_art: bool) -> void:
 		"mirror":
 			_draw_mirror(size, has_art)
 		"clocks":
-			_draw_clocks(size)
+			if has_art:
+				_draw_wall_clocks()
+			else:
+				_draw_clocks(size)
 
 
 func _draw_ribbon(size: Vector2, has_art: bool) -> void:
@@ -190,6 +197,33 @@ func _draw_clocks(size: Vector2) -> void:
 		var plate := Rect2(c.x - 92, c.y + 115, 184, 56)
 		_canvas.draw_rect(plate, Color("8a6a3a"))
 		_canvas.draw_string(font, Vector2(plate.position.x, plate.position.y + 40), CLOCK_NAMES[i], HORIZONTAL_ALIGNMENT_CENTER, plate.size.x, 32, ThemeFactory.INK_DARK)
+
+
+func _art_point(p: Vector2) -> Vector2:
+	var size := _canvas.size
+	var k := maxf(size.x / 1920.0, size.y / 1080.0)
+	return p * k + (size - Vector2(1920, 1080) * k) * 0.5
+
+
+func _art_scale() -> float:
+	return maxf(_canvas.size.x / 1920.0, _canvas.size.y / 1080.0)
+
+
+## Ponteiros e nomes sobre a arte da parede, que vem com mostradores sem ponteiros.
+func _draw_wall_clocks() -> void:
+	var times: Array = params.get("data", {}).get("times", [])
+	var k := _art_scale()
+	var font := ThemeFactory.FONT_SEMIBOLD
+	for i in mini(times.size(), WALL_CLOCKS.size()):
+		var c: Vector3 = WALL_CLOCKS[i]
+		var t: Array = times[i]
+		ClockFace.draw_clock(_canvas, _art_point(Vector2(c.x, c.y)), c.z * k * 1.2, t[0], t[1], Color.WHITE, false)
+		var plate: Rect2 = WALL_PLATES[i]
+		var top := _art_point(plate.position)
+		var w := plate.size.x * k
+		var fs := int(plate.size.y * k * 0.62)
+		_canvas.draw_string(font, Vector2(top.x, top.y + plate.size.y * k * 0.5 + fs * 0.36), CLOCK_NAMES[i],
+			HORIZONTAL_ALIGNMENT_CENTER, w, fs, Color(0.17, 0.11, 0.06, 0.9))
 
 
 ## Escreve o texto centralizado ao longo de uma curva cúbica dada em coordenadas da

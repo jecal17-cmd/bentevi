@@ -50,7 +50,7 @@ Título ─ Continuar / Novo jogo (confirma se há jogo salvo) / Capítulos / Co
 | 3 | APK de 78 MB (biblioteca armv7 duplicada + texturas sem compressão) | `export_presets.cfg`, `*.import` | 3 | Baixo | Corrigido: só arm64, texturas WebP 85% |
 | 4 | Botões com 96 px de altura ≈ 38 dp (abaixo de 48 dp) | `theme_factory.gd` `button` | 2 | Baixo | Corrigido: mínimo 112 px |
 | 5 | Cartão do nome do mineiro com imagem provisória | `item_panel.gd` | 2 | Baixo | Corrigido: nome a giz numa tábua |
-| 6 | Zoom dos relógios desenhado em código destoa da arte | `zoom_panel.gd` | 2 | Médio | Prompt de arte enviado |
+| 6 | Zoom dos relógios desenhado em código destoa da arte | `zoom_panel.gd` | 2 | Médio | Corrigido na 0.4.1: arte nova com ponteiros e nomes em código |
 | 7 | Capa com margem de papel diferente das cenas | `capa.jpg` | 1 | Baixo | Corrigido |
 | 8 | Caderno mistura capítulos numa lista única | `main.gd` `open_notebook` | 1 | Médio | Backlog |
 | 9 | `main.gd` com ~490 linhas mistura HUD, modais e transições | `main.gd` | 1 | Médio | Backlog (antes do Capítulo 2) |

@@ -8,6 +8,8 @@ Protótipo jogável do **prólogo** e do **Capítulo 1** de BENTEVI, um jogo de 
 
 ## O que tem nesta versão (0.4)
 
+- 0.4.1: parede dos cinco relógios em zoom com arte própria; ponteiros e nomes desenhados por cima.
+
 - Confirmação antes de apagar o jogo salvo; "voltar" do Android nos painéis do título volta ao título.
 - APK com cerca de metade do tamanho (só arm64, texturas WebP); botões com altura mínima de toque de 48 dp.
 - Nome dos mineiros escrito a giz; capa sem margem de papel.
